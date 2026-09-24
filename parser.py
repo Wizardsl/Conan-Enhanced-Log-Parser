@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Conan Enhanced Log Parser v1.0
+Conan Enhanced Log Parser v1.1
 Author / Автор: Wizard
 Discord: https://discord.gg/RuFq3ru
 
@@ -90,6 +90,7 @@ class LogState:
         self.emit = emit
         self.emit_chat = emit_chat or emit
         self.shutdown_sent = False    # shutdown message already sent for this session
+        self.crashed = False          # a crash marker was seen for this session
         self.awaiting_online = False  # startup seen, waiting for the first Status report
         self.chat_pending = None      # ChatWindow line waiting for its PippiChat twin
         self.last_chat_key = None     # last sent chat message (duplicate guard)
@@ -107,6 +108,7 @@ class LogState:
         self.online.clear()
         self.shutdown_sent = False
         self.awaiting_online = False
+        self.crashed = False
 
     # ---- helpers
     def _finish_join(self, char_name=None):
@@ -158,11 +160,24 @@ class LogState:
         if self.pending_join and self.now - self.pending_join["t"] > JOIN_WAIT:
             self._finish_join()
 
-        # RU: остановка сервера (строка встречается дважды - шлём один раз)
-        # EN: server shutdown (the line appears twice - send once)
-        if "LogCore: Engine exit requested" in line:
+        # RU: краш сервера (Unreal Engine пишет эту строку при фатальной ошибке)
+        # EN: server crash (Unreal Engine writes this line on a fatal error)
+        if "LogWindows: Error: === Critical error:" in line:
+            self.crashed = True
             self.awaiting_online = False
             if not self.shutdown_sent:
+                self.shutdown_sent = True
+                self.emit(config.MSG_SERVER_CRASHED.format(
+                    time=fmt_time(self.now), time_prefix=time_prefix(self.now)))
+            return
+
+        # RU: остановка сервера (строка встречается дважды - шлём один раз; при краше
+        #     эта же строка тоже появляется, но сообщение о краше уже отправлено выше)
+        # EN: server shutdown (the line appears twice - send once; a crash also produces
+        #     this same line, but the crash message was already sent above)
+        if "LogCore: Engine exit requested" in line:
+            self.awaiting_online = False
+            if not self.shutdown_sent and not self.crashed:
                 self.shutdown_sent = True
                 self.emit(config.MSG_SERVER_OFFLINE.format(
                     time=fmt_time(self.now), time_prefix=time_prefix(self.now)))

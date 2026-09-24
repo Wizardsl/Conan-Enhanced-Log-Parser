@@ -106,6 +106,12 @@ MSG_SERVER_ONLINE = "✅ {time_prefix}Server has come online"
 #     If the server crashes, the log has no shutdown entry - no message will be sent.
 MSG_SERVER_OFFLINE = "❌ {time_prefix}Server is shutting down"
 
+# RU: Сервер упал (краш, не обычная остановка). Сообщение придёт один раз, ВМЕСТО
+#     обычного MSG_SERVER_OFFLINE (оно для этого же завершения работы не отправляется).
+# EN: Server crashed (not a normal shutdown). Sent once, INSTEAD of the usual
+#     MSG_SERVER_OFFLINE (that one is not sent for the same shutdown).
+MSG_SERVER_CRASHED = "💥 {time_prefix}Server has crashed"
+
 # RU: Игрок зашёл / EN: Player joined
 MSG_PLAYER_JOIN = "❗ {time_prefix}{player} joined the server (STEAM ID: {steam_id})"
 

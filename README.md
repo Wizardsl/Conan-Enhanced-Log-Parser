@@ -10,15 +10,16 @@ Author / Автор: **Wizard** · Discord: https://discord.gg/RuFq3ru · ☕ [S
 
 A small Python script that reads the `ConanSandbox.log` of a **Conan Exiles Enhanced (Unreal Engine 5)** dedicated server and posts server events and in-game chat to Discord through webhooks.
 
-**Works with and without the Pippi mod.** No mods are required on the server and no extra Python libraries are needed.
+**Works with and without the Pippi mod.** 
 
 ### Features
 
 - ✅ Server has come online (sent when the world has fully loaded, not right at launch)
 - ❌ Server is shutting down
+- 💥 Server has crashed (sent instead of the shutdown message, when the crash is caused by an engine error)
 - ❗ Player joined / left (character name + Steam ID)
 - ⚔️ Player deaths: killed by another player, animal, NPC, by themselves, by something else the server names (e.g. falling), or by an unknown force. Victim and killer names + Steam IDs
-- 📣 In-game chat: works **with and without** the Pippi mod, Cyrillic and other languages supported, no duplicates, no technical `(uid, player)` brackets
+- 📣 In-game chat: works **with and without** the Pippi mod, Cyrillic and other languages supported
 - Every message text, icon and time format can be changed in `config.py`
 - Timezone option, separate webhook for chat, chat channel filter (with Pippi)
 - Comments in `config.py` are in Russian and English
@@ -103,15 +104,16 @@ MIT — see [LICENSE](LICENSE).
 
 Небольшой скрипт на Python, который читает `ConanSandbox.log` выделенного сервера **Conan Exiles Enhanced (Unreal Engine 5)** и отправляет события сервера и чат игры в Discord через вебхуки.
 
-**Работает и с модом Pippi, и без него.** Моды на сервере не нужны, дополнительные библиотеки Python тоже.
+**Работает и с модом Pippi, и без него.** 
 
 ### Возможности
 
 - ✅ Сервер загрузился (сообщение приходит, когда мир полностью загрузился, а не сразу после запуска)
 - ❌ Сервер останавливается
+- 💥 Сервер упал (приходит вместо сообщения об остановке, если причина - ошибка движка)
 - ❗ Игрок зашёл / вышел (ник персонажа + Steam ID)
 - ⚔️ Смерти игроков: убит другим игроком, животным, NPC, самим собой, чем-то ещё, что назвал сервер (например, падение), или неизвестной силой. Ники и Steam ID погибшего и убийцы
-- 📣 Чат игры: работает **и с модом Pippi, и без него**, кириллица и другие языки поддерживаются, без дублей и без служебных скобок `(uid, player)`
+- 📣 Чат игры: работает **и с модом Pippi, и без него**, кириллица и другие языки поддерживаются
 - Тексты всех сообщений, значки и формат времени меняются в `config.py`
 - Настройка часового пояса, отдельный вебхук для чата, фильтр каналов чата (с Pippi)
 - Комментарии в `config.py` на русском и английском
